@@ -5,7 +5,7 @@ function loadRepos(){
     fetch(url)
     .then((response) => {
         if(!response.ok){
-            throw new Error(`${response.status} ${response.statusText}`);
+            throw new Error (`${response.status} ${response.statusText}`);
         }
 
         return response.json();
@@ -13,9 +13,11 @@ function loadRepos(){
         const list = document.getElementById('repos');
         list.innerHTML = '';
 
-        list.innerHTML = data.map((repo) => ```<li><a href="${repo.html_url}">${repo.full_name}</a></li>`).join('');
+        list.innerHTML = data.map((repo) => `<li><a href="${repo.html_url}">${repo.full_name}</a></li>`).join('');
+
     }).catch((error) => {
         const list = document.getElementById('repos');
+
         list.innerHTML = `<li>${error.message}</li>`;
     });
 }
