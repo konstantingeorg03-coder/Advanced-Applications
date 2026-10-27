@@ -1,7 +1,7 @@
 function loadCommits(){
-    const usernameInput = document.getElementById('username').value;
-    const repoInput = document.getElementById('repo').value;
-    const url = `https://api.github.com/repos/${usernameInput}/${repoInput}/commits`;
+    const usernameValue = document.getElementById('username').value;
+    const repos = document.getElementById('repo').value;
+    const url = `https://api.github.com/repos/${usernameValue}/${repos}/commits`;
 
     fetch(url)
     .then((response) => {
