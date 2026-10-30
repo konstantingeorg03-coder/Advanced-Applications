@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Kosyo WareHouse</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #f4f4f4;
+                margin: 0;
+            }
+            header {
+                background: #2c3e50;
+                color: white;
+                padding: 20px;
+            }
+            nav ul {
+                list-style: none;
+                display: flex;
+                gap: 20px;
+                padding: 0;
+            }
+
+            nav a {
+                color: white;
+                text-decoration: none;
+            }
+            main {
+                padding: 20px;
+            }
+            .products {
+                display: flex;
+                gap: 20px;
+            }
+
+            .card {
+                background: white;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            .card img {
+                width: 100%;
+                border-radius: 8px;
+            }
+
+            .card button {
+                background: #2c3e50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            footer {
+                background: #2c3e50;
+                color: white;
+                padding: 20px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Kosyo's WareHouse</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <h2>Our Products</h2>
+            <div class="products">
+                <article class="card">
+                    <h3>Iron Shoes</h3>
+                    <img src="https://picsum.photos/300/200" alt="iron">
+                    <p>Price: 120 euro</p>
+                    <button>Add to cart</button>
+                </article>
+                <article class="card">
+                    <h3>Izar Limited</h3>
+                    <img src="https://picsum.photos/301/200" alt="IZAR Limited">
+                    <p>Price: 200 euro</p>
+                    <button>Add to cart</button>
+                </article>
+                <article class="card">
+                    <h3>Izar Jacket</h3>
+                    <img src="https://picsum.photos/302/200" alt="Izar Jacket">
+                    <p>Price: 180 euro</p>
+                    <button>Add to cart</button>
+                </article>
+            </div>
+        </main>
+        <footer>
+            <p>© 2026 Kosyo's WareHouse</p>
+        </footer>
+    </body>
+</html>
+
