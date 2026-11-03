@@ -5,11 +5,23 @@
         <title>KG Exercise</title>
     </head>
     <body>
-        <form>
+        <form id="loginForm">
             <input type="email" name="email">
             <input type="password" name="password">
             <button>Login</button>
         </form>
+        <form id="createForm">
+            <input name="name">
+            <input type="number" name="price">
+            <button>Create</button>
+        </form>
+        <form id="registration">
+            <input type="email" name="email">
+            <input type="password" name="password">
+            <button>Registration</button>
+        </form>
+        <button id="loadBtn">Load products</button>
+        <ul id="list"></ul>
         <script src="06. login.js"></script>
     </body>
 </html>
