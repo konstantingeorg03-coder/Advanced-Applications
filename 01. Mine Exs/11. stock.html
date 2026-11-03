@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mini Stock</title>
+    </head>
+    <body>
+        <form>
+            <input name="product">
+            <input type="number" name="qty">
+            <select name="category">
+                <option value="Обувки">Обувки</option>
+                <option value="Якета">Якета</option>
+                <option value="Аксесоари">Аксесоари</option>
+            </select>
+            <button>Добави</button>
+        </form>
+
+        <table border="1">
+            <thead>
+                <tr><th>Продукт</th><th>Количество</th><th>Категория</th></tr>
+            </thead>
+            <tbody id="stock"></tbody>
+        </table>
+
+        <script src="11. stock.js"></script>
+    </body>
+</html>
