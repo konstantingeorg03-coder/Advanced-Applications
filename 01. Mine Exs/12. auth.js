@@ -17,6 +17,8 @@ const loginForm = document.getElementById('loginForm');
 const savedEmail = sessionStorage.getItem('email');
 const btn = document.getElementById('logoutBtn');
 const noteForm = document.getElementById('noteForm');
+const loadBtn = document.getElementById('loadBtn');
+const notesList = document.getElementById('notes');
 
 if (savedEmail) {
     result.textContent = `Влязъл като: ${savedEmail}`;
@@ -70,6 +72,7 @@ loginForm.addEventListener('submit', (event) => {
 
             return response.json();
         }).then((curData) => {
+            sessionStorage.setItem('userId', curData._id);
             sessionStorage.setItem('token', curData.accessToken);
             sessionStorage.setItem('email', curData.email);
             result.textContent = `Влязъл като: ${curData.email}`;
@@ -105,10 +108,12 @@ noteForm.addEventListener('submit', (event) => {
     fetch('http://localhost:3030/data/notes', 
         {
             method: 'POST', 
-            headers: {'Content-Type': 'applicatio/json', 'X-Authorization': token},
+            headers: {'Content-Type': 'application/json', 'X-Authorization': token},
             body: JSON.stringify({text})
         }).then((response) => {
             if(!response.ok) throw new Error (`${response.status}`);
+
+            return response.json();
         }).then((note) => {
             result.textContent = `Добавена: ${note.text}`;
             noteForm.reset();
@@ -116,3 +121,21 @@ noteForm.addEventListener('submit', (event) => {
             result.textContent = `Грешка: ${error.message}`;
         })
 })
+
+loadBtn.addEventListener('click', () => {
+    fetch('http://localhost:3030/data/notes')
+    .then((response) => {
+        if (!response.ok) throw new Error(`${response.status}`);
+        return response.json();
+    })
+    .then((notes) => {
+        const userId = sessionStorage.getItem('userId');
+
+        notesList.innerHTML = notes.map((note) => {
+            if (note._ownerId === userId) {
+                return `<li>${note.text} <button>Delete</button></li>`;
+            }
+            return `<li>${note.text}</li>`;
+        }).join('');
+    });
+});
