@@ -5,20 +5,34 @@
         <title>Authorization Exercise</title>
     </head>
     <body>
+    <div id="guest">
         <h2>Register</h2>
         <form id="registerForm">
             <input type="email" name="email" placeholder="Email">
             <input type="password" name="password" placeholder="Password">
             <button>Register</button>
         </form>
+
         <h2>Login</h2>
         <form id="loginForm">
             <input type="email" name="email" placeholder="Email">
             <input type="password" name="password" placeholder="Password">
             <button>Login</button>
-        </form> 
-        <p id="info"></p>
+        </form>
+    </div>
+
+    <div id="user">
         <button id="logoutBtn">Logout</button>
-        <script src="12. auth.js"></script>
-    </body>
+
+        <form id="noteForm">
+            <input name="text" placeholder="Бележка">
+            <button>Add note</button>
+        </form>
+        <button id="loadBtn">Load notes</button>
+        <ul id="notes"></ul>
+    </div>
+
+    <p id="info"></p>
+    <script src="12. auth.js"></script>
+</body>
 </html>
