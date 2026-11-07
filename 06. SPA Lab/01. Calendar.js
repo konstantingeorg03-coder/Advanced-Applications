@@ -1,15 +1,20 @@
 let currentYear = null;
 
-const monthNumbers = {
-    Jan: 1, Feb: 2, Mar: 3, Apr: 4,
-    May: 5, Jun: 6, Jul: 7, Aug: 8,
-    Sept: 9, Oct: 10, Nov: 11, Dec: 12
-};
+const allMonths = {
+    Jan: 1, Feb: 2,
+    Mar: 3, Apr: 4,
+    May: 5, Jun: 6,
+    Jul: 7, Aug: 8,
+    Sept: 9, Oct: 10,
+    Nov: 11, Dec: 12 
+}
 
 function showView(id){
     const sections = document.querySelectorAll('section');
 
-    sections.forEach((section) => section.style.display = 'none');
+    sections.forEach((section) => {
+        section.style.display = 'none';
+    });
 
     const neededSection = document.getElementById(id);
 
@@ -32,23 +37,22 @@ const months = document.querySelectorAll('.monthCalendar .day');
 
 months.forEach((month) => {
     month.addEventListener('click', () => {
-        showView(`month-${currentYear}-${monthNumbers[month.textContent.trim()]}`);
+        showView(`month-${currentYear}-${allMonths[month.textContent.trim()]}`);
     });
 });
 
-const titles = document.querySelectorAll('.monthCalendar caption');
+const titlesYears = document.querySelectorAll('.monthCalendar caption');
 
-titles.forEach((title) => {
-    title.addEventListener('click', () => {
+titlesYears.forEach((titleYear) => {
+    titleYear.addEventListener('click', () => {
         showView('years');
     });
 });
 
-const titlesDays = document.querySelectorAll('.daysCalendar caption');
+const titletMonths = document.querySelectorAll('.daysCalendar caption');
 
-titlesDays.forEach((titleDay) => {
-    titleDay.addEventListener('click', () => {
+titletMonths.forEach((titleMonth) => {
+    titleMonth.addEventListener('click', () => {
         showView(`year-${currentYear}`);
     })
 })
-
