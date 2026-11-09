@@ -53,10 +53,47 @@ formLogin.addEventListener('submit', async (event) => {
         return response.json();
     }).then((curData) => {
         sessionStorage.setItem('token', curData.accessToken);
-        sessionStorage.setItem('emailUser', curData.email);
+        sessionStorage.setItem('email', curData.email);
         sessionStorage.setItem('userId', curData._id);
 
         showView('home-page');
-    })
+    });
 });
+
+const formRegister = document.getElementById('register-form');
+
+formRegister.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const regData = new FormData(formRegister);
+    const email = regData.get('email');
+    const password = regData.get('password');
+    const repPassword = regData.get('repeatPassword');
+
+    if(email === '' || password.length < 6){
+        return;
+    }
+
+    if(repPassword !== password){
+        return;
+    }
+
+    fetch('http://localhost:3030/users/register', 
+        {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email, password})
+        }
+    ).then((response) => {
+        if(!response.ok) throw new Error (`${response.status}`);
+
+        return response.json();
+    }).then((userData) => {
+        sessionStorage.setItem('token', userData.accessToken);
+        sessionStorage.setItem('email', userData.email);
+        sessionStorage.setItem('userId', userData._id);
+         
+        showView('home-page');
+    })
+})
 
