@@ -94,6 +94,46 @@ formRegister.addEventListener('submit', (event) => {
         sessionStorage.setItem('userId', userData._id);
          
         showView('home-page');
+    });
+});
+
+const userToken = sessionStorage.getItem('token');
+
+const linksUser = document.querySelectorAll('.user');
+
+linksUser.forEach((link) => {
+    if(userToken){
+        link.style.display = 'block';
+    }else{
+        link.style.display = 'none';
+    }
+});
+
+const logLinks = document.querySelectorAll('.guest');
+
+logLinks.forEach((logLink) => {
+    if(userToken){
+        logLink.style.display = 'none';
+    }else{
+        logLink.style.display = 'block';
+    }
+});
+
+const logOut = links[1];
+
+logOut.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    fetch('http://localhost:3030/users/logout',
+        {
+            headers: {'X-Authorization': sessionStorage.getItem('token')}
+        }
+    )
+    .then(() => {
+        sessionStorage.clear();
+        showView('form-login');
     })
 })
+
+
 
