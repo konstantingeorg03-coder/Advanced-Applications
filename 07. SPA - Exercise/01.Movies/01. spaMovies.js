@@ -129,7 +129,38 @@ logOut.addEventListener('click', (event) => {
         sessionStorage.clear();
         showView('form-login');
         updateNav();
-    })
+    });
+});
+
+fetch('http://localhost:3030/data/movies')
+.then((response) => {
+    if(!response.ok) throw new Error (`${response.status}`);
+
+    return response.json();
+
+}).then((movieData) => {
+    const ul = document.getElementById('movies-list');
+
+    ul.textContent = '';
+
+    movieData.forEach((movie) => {
+        const homeMovie = document.createElement('li'); homeMovie.className = 'card mb-4';
+
+        homeMovie.innerHTML = `
+        <img class="card-img-top" src="${movie.img}">
+                <div class="card-body">
+                  <h4 class="card-title">${movie.title}</h4>
+                  <a href="#">
+                  </a>
+                </div>
+                <div class="card-footer">
+                  <button type="button" class="btn btn-info">Details</button>
+                </div>`;
+
+        ul.appendChild(homeMovie);
+    });
+
+
 })
 
 
