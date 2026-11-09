@@ -57,6 +57,7 @@ formLogin.addEventListener('submit', async (event) => {
         sessionStorage.setItem('userId', curData._id);
 
         showView('home-page');
+        updateNav();
     });
 });
 
@@ -94,30 +95,25 @@ formRegister.addEventListener('submit', (event) => {
         sessionStorage.setItem('userId', userData._id);
          
         showView('home-page');
+        updateNav();
     });
 });
 
-const userToken = sessionStorage.getItem('token');
+function updateNav() {
+    const userToken = sessionStorage.getItem('token');
 
-const linksUser = document.querySelectorAll('.user');
+    document.querySelectorAll('.user').forEach((link) => {
+        link.style.display = userToken ? 'block' : 'none';
+    });
 
-linksUser.forEach((link) => {
-    if(userToken){
-        link.style.display = 'block';
-    }else{
-        link.style.display = 'none';
-    }
-});
+    document.querySelectorAll('.guest').forEach((link) => {
+        link.style.display = userToken ? 'none' : 'block';
+    });
 
-const logLinks = document.querySelectorAll('.guest');
+    document.getElementById('welcome-msg').textContent = `Welcome, ${sessionStorage.getItem('email')}`;
+}
 
-logLinks.forEach((logLink) => {
-    if(userToken){
-        logLink.style.display = 'none';
-    }else{
-        logLink.style.display = 'block';
-    }
-});
+updateNav();
 
 const logOut = links[1];
 
@@ -132,6 +128,7 @@ logOut.addEventListener('click', (event) => {
     .then(() => {
         sessionStorage.clear();
         showView('form-login');
+        updateNav();
     })
 })
 
