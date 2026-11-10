@@ -159,11 +159,43 @@ fetch('http://localhost:3030/data/movies')
                 </div>`;
 
         ul.appendChild(homeMovie);
+
+        const btnDetails = homeMovie.querySelector('.btn-info');
+
+        btnDetails.addEventListener('click', () => {
+            showDetails(movie);
+        });
     });
 });
 }
 
 loadMovies();
+
+function showDetails(movie){
+    showView('movie-example');
+
+    const section = document.getElementById('movie-example');
+
+            section.innerHTML = `
+            <div class="container">
+                <div class="row bg-light text-dark">
+                <h1>Movie title: ${movie.title}</h1>
+                <div class="wrapper">
+                    <div class="col-md-8">
+                        <img class="img-thumbnail" src="${movie.img}" alt="Movie" />
+                        </div>
+                    <div class="col-md-4 text-center">
+                        <h3 class="my-3">Movie Description</h3>
+                        <p>${movie.description}</p>
+                        <a class="btn btn-danger" href="#">Delete</a>
+                        <a class="btn btn-warning" href="#">Edit</a>
+                        <a class="btn btn-primary" href="#">Like</a>
+                        <span class="enrolled-span">Liked 1</span>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+}
 
 
 const btnAddMovie = document.querySelector('#add-movie-button .btn-warning');
@@ -204,6 +236,10 @@ formSubmit.addEventListener('submit', (event) => {
         loadMovies();
     })
 });
+
+
+
+
 
 
 
