@@ -132,6 +132,7 @@ logOut.addEventListener('click', (event) => {
     });
 });
 
+function loadMovies(){
 fetch('http://localhost:3030/data/movies')
 .then((response) => {
     if(!response.ok) throw new Error (`${response.status}`);
@@ -159,9 +160,55 @@ fetch('http://localhost:3030/data/movies')
 
         ul.appendChild(homeMovie);
     });
+});
+}
+
+loadMovies();
 
 
-})
+const btnAddMovie = document.querySelector('#add-movie-button .btn-warning');
+
+btnAddMovie.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    showView('add-movie');
+});
+
+const formSubmit = document.getElementById('add-movie-form');
+
+formSubmit.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const data = new FormData(formSubmit);
+    const description = data.get('description');
+    const title = data.get('title');
+    const img = data.get('img');
+
+    if(description === '' || title === '' || img === ''){
+        return;
+    }
+
+    
+        fetch('http://localhost:3030/data/movies', 
+        {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json', 'X-Authorization': sessionStorage.getItem('token')}, 
+            body: JSON.stringify({description, title, img})
+        }
+    ).then((response) => {
+        if(!response.ok) throw new Error (`${response.status}`);
+
+        return response.json();
+    }).then((moviesData) => {
+        showView('home-page');
+        loadMovies();
+    })
+});
+
+
+
+
+
 
 
 
