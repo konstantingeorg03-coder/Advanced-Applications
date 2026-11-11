@@ -172,6 +172,8 @@ fetch('http://localhost:3030/data/movies')
 loadMovies();
 
 function showDetails(movie){
+    const personId = sessionStorage.getItem('userId');
+
     showView('movie-example');
 
     const section = document.getElementById('movie-example');
@@ -195,6 +197,70 @@ function showDetails(movie){
                 </div>
             </div>
         </div>`;
+
+    const editBtn = section.querySelector('.btn-warning');
+    const deleteBtn = section.querySelector('.btn-danger');
+    const likeBtn = section.querySelector('.btn-primary');
+
+    if(personId === movie._ownerId){
+        likeBtn.style.display = 'none';
+    }else{
+        editBtn.style.display = 'none'; 
+
+        deleteBtn.style.display = 'none';
+    }
+
+    deleteBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        fetch(`http://localhost:3030/data/movies/${movie._id}`, 
+            {
+                method: 'DELETE',
+                headers: {'X-Authorization': sessionStorage.getItem('token')}
+            }
+        ).then((response) => {
+            if(!response.ok) throw new Error (`${response.status}`);
+
+            return response.json();
+        }).then(() => {
+            showView('home-page');
+            loadMovies();
+        });
+    });
+
+    editBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        showView('edit-movie');
+
+        const editForm = document.querySelector('#edit-movie form');
+
+        const title = editForm.querySelector('#title');
+        const description = editForm.querySelector('#description');
+        const imgMovie = editForm.querySelector('#imageUrl');
+
+        title.value = movie.title;
+        description.value = movie.description;
+        imgMovie.value = movie.img;
+
+        editForm.onsubmit = (event) => {
+            event.preventDefault();
+
+            fetch(`http://localhost:3030/data/movies/${movie._id}`, 
+                {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json', 'X-Authorization': sessionStorage.getItem('token')},
+                    body: JSON.stringify({title: title.value, description: description.value, img: imgMovie.value})
+                }
+            ).then((response) => {
+                if(!response.ok) throw new Error (`${response.status}`);
+
+                return response.json();
+            }).then((data) => {
+                showDetails(data);
+            })
+        }
+    });
 }
 
 
