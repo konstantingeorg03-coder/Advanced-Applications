@@ -258,9 +258,51 @@ function showDetails(movie){
                 return response.json();
             }).then((data) => {
                 showDetails(data);
-            })
+            });
         }
     });
+
+    fetch(`http://localhost:3030/data/likes?where=movieId%3D%22${movie._id}%22&distinct=_ownerId&count`)
+        .then((response) => {
+            if(!response.ok) throw new Error(`${response.status}`);
+
+            return response.json();
+        }).then((count) => {
+            const like = section.querySelector('.enrolled-span');
+
+            like.textContent = `Liked ${count}`;
+
+
+        })
+
+    likeBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        fetch('http://localhost:3030/data/likes', 
+            {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-Authorization': sessionStorage.getItem('token')},
+                body: JSON.stringify({movieId: movie._id})
+            }
+        ).then((response) => {
+            if(!response.ok) throw new Error(`${response.status}`);
+
+            return response.json();
+        }).then((likeData) => {
+            showDetails(movie);
+        });
+    });
+
+    fetch(`http://localhost:3030/data/likes?where=movieId%3D%22${movie._id}%22%20and%20_ownerId%3D%22${personId}%22`)
+    .then((response) => {
+        if(!response.ok) throw new Error (`${response.status}`);
+
+        return response.json();
+    }).then((likes) => {
+        if(likes.length !== 0){
+            likeBtn.style.display = 'none';
+        }
+    })
 }
 
 
