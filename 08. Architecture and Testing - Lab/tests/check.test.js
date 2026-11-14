@@ -1,37 +1,38 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect} = require ('@playwright/test');
 
-test('if a user can add the task', async ({page}) => {
+test('if a user can add Tast', async ({page}) => {
     await page.goto('http://localhost:8080');
-    await page.fill('#task-input', 'Test Task');
+    await page.fill('#task-input', 'First Task');
     await page.click('#add-task');
-    const taskText = await page.textContent('.task');
-    expect(taskText).toContain('Test Task');
+    const addTask = await page.textContent('.task');
+    expect(addTask).toContain('First Task');
 })
 
-test('if a user can delete the task', async ({page}) => {
+test('if a user can delete Tast', async ({page}) => {
     await page.goto('http://localhost:8080');
-    await page.fill('#task-input', 'Test Task');
+    await page.fill('#task-input', 'First Task');
     await page.click('#add-task');
-    await page.click('.task .delete-task');
-    const tasks = await page.$$eval('.task', tasks => tasks.map(task => task.textContent));
-    expect(tasks).not.toContain('Test Task');
+    await page.click('.delete-task');
+    const deleteTask = await page.$('.task');
+    expect(deleteTask).toBeNull();
 })
 
-test('if a user can complete the task', async ({page}) => {
+test('if a user can complete Tast', async ({page}) => {
     await page.goto('http://localhost:8080');
-    await page.fill('#task-input', 'Test Task');
+    await page.fill('#task-input', 'First Task');
     await page.click('#add-task');
     await page.click('.task-complete');
     const completeTask = await page.$('.task.completed');
     expect(completeTask).not.toBeNull();
 })
 
-test('if a filter works', async ({page}) => {
+test('if a user can use Filter', async ({page}) => {
     await page.goto('http://localhost:8080');
-    await page.fill('#task-input', 'Test Task');
+    await page.fill('#task-input', 'First Task');
     await page.click('#add-task');
     await page.selectOption('#filter', 'Completed');
-    const filterTasks = await page.$('.task:not(.completed):visible');
-    expect(filterTasks).toBeNull();
+    const result = await page.$('.task:not(.completed):visible');
+    expect(result).toBeNull();
 })
+
 
