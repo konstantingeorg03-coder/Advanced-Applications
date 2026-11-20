@@ -1,6 +1,5 @@
 import { render, html } from './node_modules/lit-html/lit-html.js'
 
-const form = document.querySelector('form');
 const inputTowns = document.getElementById('towns');
 const divTowns = document.getElementById('root');
 
