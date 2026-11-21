@@ -2,31 +2,23 @@ import { html, render } from './node_modules/lit-html/lit-html.js'
 
 import { towns } from './towns.js'
 
-const div = document.getElementById('towns');
+const divForList = document.getElementById('towns');
+const resultDiv = document.getElementById('result');
+const input = document.getElementById('searchText');
+const btn = document.querySelector('button');
 
-const townsList = (towns, match) => html`
+const showTowns = (towns, match) => html`
 <ul>
-   ${towns.map((town) => html`<li class="${town.includes(match) ? 'active' : ''}">${town}</li>`)}
+${towns.map((town) => html`<li class=${town.includes(match) ? 'active' : ''}>${town}</li>`)}
 </ul>`;
 
-render(townsList(towns), div);
+render(showTowns(towns), divForList);
 
-const btnLoad = document.querySelector('button');
+btn.addEventListener('click', () => {
+   const UserText = input.value;
 
-btnLoad.addEventListener('click', search);
+   render(showTowns(towns, UserText), divForList);
 
-function search() {
-   const inputUserText = document.getElementById('searchText').value;
-
-   render(townsList(towns, inputUserText), div);
-
-   const count = towns.filter((town) => town.includes(inputUserText)).length;
-
-   document.getElementById('result').textContent = `${count} matches found`;
-}
-
-
-
-
-
-
+   const count = towns.filter((town) => town.includes(UserText)).length;
+   resultDiv.textContent = `${count} matches found`;
+});
