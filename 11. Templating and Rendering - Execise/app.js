@@ -1,19 +1,21 @@
-import { render, html } from './node_modules/lit-html/lit-html.js'
+import { html, render } from './node_modules/lit-html/lit-html.js'
 
-const inputTowns = document.getElementById('towns');
-const divTowns = document.getElementById('root');
+const inputValue = document.getElementById('towns');
+const div = document.getElementById('root');
+const loadBtn = document.getElementById('btnLoadTowns');
 
 const townsList = (towns) => html`
-    <ul>
-        ${towns.map((town) => html`<li>${town}</li>`)}
-    </ul>`;
-
-const loadBtn = document.getElementById('btnLoadTowns');
+<ul>
+    ${towns.map((town) => html `<li>${town}</li>`)}
+</ul>`;
 
 loadBtn.addEventListener('click', (event) => {
     event.preventDefault();
 
-    const inputValue = inputTowns.value.split(', ');
+    const userText = inputValue.value;
 
-    render(townsList(inputValue), divTowns);
+    const neededText = userText.split(', ');
+
+    render(townsList(neededText), div);
 })
+
