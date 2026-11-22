@@ -36,7 +36,7 @@ form.addEventListener('submit', (event) => {
         if(!response.ok) throw new Error(`${response.status}`);
 
         return response.json();
-    }).then((data) => {
+    }).then(() => {
         loadItems();
 
         input.value = '';
