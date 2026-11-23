@@ -1,8 +1,8 @@
 import { html, render } from './node_modules/lit-html/lit-html.js'
 
-const bodyForMaking = document.querySelector('body');
+const body = document.querySelector('body');
 
-let books = [];
+let booksNeed = [];
 let editBook = null;
 
 const templates = (books) => html`
@@ -16,7 +16,7 @@ const templates = (books) => html`
             </tr>
         </thead>
         <tbody>
-           ${books.map(([id, book]) => html`
+        ${books.map(([id, book]) => html`
             <tr>
                 <td>${book.title}</td>
                 <td>${book.author}</td>
@@ -27,14 +27,16 @@ const templates = (books) => html`
             </tr>`)}
         </tbody>
     </table>
-        ${editBook
+
+    ${editBook
         ? html`
         <form id="edit-form" @submit=${onSave}>
+            <input type="hidden" name="id">
             <h3>Edit book</h3>
             <label>TITLE</label>
-            <input type="text" name="title" .value=${editBook.title}>
+            <input type="text" name="title" placeholder="Title..." .value=${editBook.title}>
             <label>AUTHOR</label>
-            <input type="text" name="author" .value=${editBook.author}>
+            <input type="text" name="author" placeholder="Author..." .value=${editBook.author}>
             <input type="submit" value="Save">
         </form>`
         : html`
@@ -48,7 +50,7 @@ const templates = (books) => html`
         </form>`}
 `;
 
-render(templates([]), bodyForMaking);
+    render(templates(booksNeed), body);
 
 function loadBooks(){
     fetch('http://localhost:3030/jsonstore/collections/books')
@@ -57,10 +59,13 @@ function loadBooks(){
 
         return response.json();
     }).then((data) => {
-        books = Object.entries((data));
-        render(templates(books), bodyForMaking);
-    });
-};
+        booksNeed = Object.entries(data);
+        console.log(booksNeed);
+
+        render(templates(booksNeed), body);
+    })
+}
+loadBooks();
 
 function onAdd(event){
     event.preventDefault();
@@ -81,7 +86,6 @@ function onAdd(event){
         if(!response.ok) throw new Error(`${response.status}`);
 
         return response.json();
-
     }).then(() => {
         loadBooks();
 
@@ -90,18 +94,19 @@ function onAdd(event){
 }
 
 function onEdit(id, book){
-    editBook = { id, title: book.title, author: book.author };
-    render(templates(books), bodyForMaking);
+    editBook = {id, title: book.title, author: book.author};
+
+    render(templates(booksNeed), body);
 }
 
 function onSave(event){
     event.preventDefault();
 
     const data = new FormData(event.target);
-    const author = data.get('author');
     const title = data.get('title');
+    const author = data.get('author');
 
-    if(author === '' || title === '') return;
+    if(title === '' || author === '') return;
 
     fetch(`http://localhost:3030/jsonstore/collections/books/${editBook.id}`, 
         {
@@ -110,16 +115,14 @@ function onSave(event){
             body: JSON.stringify({title, author})
         }
     ).then((response) => {
-        if(!response.ok) throw new Error (`${response.status}`);
+        if(!response.ok) throw new Error(`${response.status}`);
 
         return response.json();
-
     }).then(() => {
-        editBook = null;
         loadBooks();
 
         event.target.reset();
-    })
+
+        editBook = null;
+    });
 }
-
-
